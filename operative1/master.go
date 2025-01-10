@@ -2,6 +2,7 @@ package operative1
 
 import (
 	"github.com/behavioral-ai/core/messaging"
+	"github.com/behavioral-ai/ingress/frame1"
 )
 
 // master attention
@@ -26,7 +27,7 @@ func masterAttend(agent *service) {
 				return
 			case messaging.ObservationEvent:
 				if !paused {
-					observe, status := getObservation(agent.handler, agent.Uri(), msg)
+					observe, status := frame1.GetObservation(agent.handler, agent.Uri(), msg)
 					if status.OK() {
 						if observe.Gradient > 10 {
 						}

@@ -3,7 +3,7 @@ package operative1
 import (
 	"github.com/behavioral-ai/core/core"
 	"github.com/behavioral-ai/core/messaging"
-	"github.com/behavioral-ai/ingress/observation1"
+	"github.com/behavioral-ai/ingress/timeseries1"
 	"time"
 )
 
@@ -28,12 +28,12 @@ func serviceAgentUri(origin core.Origin) string {
 	return origin.Uri(Class)
 }
 
-// NewAgent - create a new operative1 agent
-func NewAgent(origin core.Origin, handler messaging.OpsAgent, global messaging.Dispatcher) messaging.Agent {
-	return newAgent(origin, handler, global, newMasterDispatcher(false), newEmissaryDispatcher(false))
+// New - create a new operative1 agent
+func New(origin core.Origin, handler messaging.OpsAgent, global messaging.Dispatcher) messaging.Agent {
+	return newOp(origin, handler, global, newMasterDispatcher(false), newEmissaryDispatcher(false))
 }
 
-func newAgent(origin core.Origin, handler messaging.OpsAgent, global messaging.Dispatcher, master, emissary dispatcher) *service {
+func newOp(origin core.Origin, handler messaging.OpsAgent, global messaging.Dispatcher, master, emissary dispatcher) *service {
 	r := new(service)
 	r.origin = origin
 	r.agentId = serviceAgentUri(origin)
@@ -72,7 +72,7 @@ func (s *service) Run() {
 		return
 	}
 	go masterAttend(s)
-	go emissaryAttend(s, observation1.Observe)
+	go emissaryAttend(s, timeseries1.Observe)
 	s.running = true
 }
 

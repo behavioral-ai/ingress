@@ -15,7 +15,7 @@ var (
 func ExampleMaster() {
 	ch := make(chan struct{})
 	traceDispatch := messaging.NewTraceDispatcher(nil, "")
-	agent := newAgent(core.Origin{Region: "us-west"}, test.NewAgent("agent-test"), traceDispatch, newMasterDispatcher(true), newEmissaryDispatcher(true))
+	agent := newOp(core.Origin{Region: "us-west"}, test.NewAgent("agent-test"), traceDispatch, newMasterDispatcher(true), newEmissaryDispatcher(true))
 
 	go func() {
 		go masterAttend(agent)

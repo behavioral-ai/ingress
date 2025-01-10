@@ -3,11 +3,12 @@ package operative1
 import (
 	"github.com/behavioral-ai/core/messaging"
 	"github.com/behavioral-ai/domain/guidance"
-	"github.com/behavioral-ai/ingress/observation1"
+	"github.com/behavioral-ai/ingress/frame1"
+	"github.com/behavioral-ai/ingress/timeseries1"
 )
 
 // emissary attention
-func emissaryAttend(agent *service, observe *observation1.Observation) {
+func emissaryAttend(agent *service, observe *timeseries1.Observation) {
 	paused := false
 	comms := agent.emissary
 	comms.dispatch(agent, messaging.StartupEvent)
@@ -21,7 +22,7 @@ func emissaryAttend(agent *service, observe *observation1.Observation) {
 				e, status := observe.Timeseries(agent.handler, agent.origin)
 				if status.OK() {
 					m := messaging.NewControlMessage(messaging.MasterChannel, agent.Uri(), messaging.ObservationEvent)
-					m.SetContent(contentTypeObservation, observation{
+					m.SetContent(frame1.ContentTypeObservation, frame1.Observation{
 						Latency:  e.Latency,
 						Gradient: e.Gradient})
 					agent.Message(m)

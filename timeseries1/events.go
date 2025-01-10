@@ -1,4 +1,4 @@
-package observation1
+package timeseries1
 
 import (
 	"context"
@@ -14,19 +14,19 @@ const (
 
 // Observation - observation functions struct
 type Observation struct {
-	Timeseries func(h messaging.Notifier, origin core.Origin) (timeseries.Entry, *core.Status)
+	Timeseries func(h messaging.Notifier, origin core.Origin) (Entry, *core.Status)
 }
 
 var Observe = func() *Observation {
 	return &Observation{
-		Timeseries: func(h messaging.Notifier, origin core.Origin) (timeseries.Entry, *core.Status) {
+		Timeseries: func(h messaging.Notifier, origin core.Origin) (Entry, *core.Status) {
 			ctx, cancel := context.WithTimeout(context.Background(), timeseriesDuration)
 			defer cancel()
 			e, status := timeseries.Query(ctx, origin)
 			if !status.OK() && !status.NotFound() {
 				h.Notify(status)
 			}
-			return e, status
+			return Entry{Gradient: e.Gradient, Latency: e.Latency}, core.StatusOK()
 		},
 	}
 }()

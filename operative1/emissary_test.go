@@ -16,7 +16,7 @@ var (
 func ExampleEmissary() {
 	ch := make(chan struct{})
 	traceDispatch := messaging.NewTraceDispatcher(nil, "")
-	agent := newAgent(core.Origin{Region: "us-west"}, test.NewAgent("agent-test"), traceDispatch, newMasterDispatcher(true), newEmissaryDispatcher(true))
+	agent := newOp(core.Origin{Region: "us-west"}, test.NewAgent("agent-test"), traceDispatch, newMasterDispatcher(true), newEmissaryDispatcher(true))
 	dataChange.SetContent(guidance.ContentTypeCalendar, guidance.NewProcessingCalendar())
 
 	go func() {

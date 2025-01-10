@@ -1,4 +1,4 @@
-package observation1
+package timeseries1
 
 import "fmt"
 
